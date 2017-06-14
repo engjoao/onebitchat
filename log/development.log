@@ -568,3 +568,42 @@ Processing by Rails::WelcomeController#index as HTML
 Completed 200 OK in 10ms (Views: 7.8ms | ActiveRecord: 0.0ms)
 
 
+  [1m[35m (0.5ms)[0m  [1m[34mSELECT pg_try_advisory_lock(4628516070272267460);[0m
+  [1m[36mActiveRecord::SchemaMigration Load (1.1ms)[0m  [1m[34mSELECT "schema_migrations".* FROM "schema_migrations"[0m
+Migrating to CreateTeams (20170604145618)
+  [1m[35m (0.4ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (324.8ms)[0m  [1m[35mCREATE TABLE "teams" ("id" serial primary key, "slug" character varying, "user_id" integer, "created_at" timestamp NOT NULL, "updated_at" timestamp NOT NULL)[0m
+  [1m[35mSQL (0.9ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES ($1) RETURNING "version"[0m  [["version", "20170604145618"]]
+  [1m[35m (32.2ms)[0m  [1m[35mCOMMIT[0m
+Migrating to CreateChannels (20170604145742)
+  [1m[35m (0.4ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (74.6ms)[0m  [1m[35mCREATE TABLE "channels" ("id" serial primary key, "slug" character varying, "user_id" integer, "team_id" integer, "created_at" timestamp NOT NULL, "updated_at" timestamp NOT NULL, CONSTRAINT "fk_rails_e3493648f1"
+FOREIGN KEY ("user_id")
+  REFERENCES "users" ("id")
+, CONSTRAINT "fk_rails_a27e8ec9e1"
+FOREIGN KEY ("team_id")
+  REFERENCES "teams" ("id")
+)[0m
+  [1m[35m (37.3ms)[0m  [1m[35mCREATE  INDEX  "index_channels_on_user_id" ON "channels"  ("user_id")[0m
+  [1m[35m (29.8ms)[0m  [1m[35mCREATE  INDEX  "index_channels_on_team_id" ON "channels"  ("team_id")[0m
+  [1m[35mSQL (0.6ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES ($1) RETURNING "version"[0m  [["version", "20170604145742"]]
+  [1m[35m (10.8ms)[0m  [1m[35mCOMMIT[0m
+Migrating to CreateMessages (20170604145803)
+  [1m[35m (0.5ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (72.4ms)[0m  [1m[35mCREATE TABLE "messages" ("id" serial primary key, "body" text, "user_id" integer, "messagable_id" integer, "messagable_type" character varying, "created_at" timestamp NOT NULL, "updated_at" timestamp NOT NULL)[0m
+  [1m[35mSQL (0.6ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES ($1) RETURNING "version"[0m  [["version", "20170604145803"]]
+  [1m[35m (9.8ms)[0m  [1m[35mCOMMIT[0m
+Migrating to CreateTalks (20170604145816)
+  [1m[35m (0.6ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (40.5ms)[0m  [1m[35mCREATE TABLE "talks" ("id" serial primary key, "user_one_id" integer, "user_two_id" integer, "team_id" integer, "created_at" timestamp NOT NULL, "updated_at" timestamp NOT NULL, CONSTRAINT "fk_rails_e2a9b94e13"
+FOREIGN KEY ("team_id")
+  REFERENCES "teams" ("id")
+)[0m
+  [1m[35m (28.6ms)[0m  [1m[35mCREATE  INDEX  "index_talks_on_team_id" ON "talks"  ("team_id")[0m
+  [1m[35mSQL (0.7ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES ($1) RETURNING "version"[0m  [["version", "20170604145816"]]
+  [1m[35m (9.3ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mActiveRecord::InternalMetadata Load (33.1ms)[0m  [1m[34mSELECT  "ar_internal_metadata".* FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = $1 LIMIT $2[0m  [["key", "environment"], ["LIMIT", 1]]
+  [1m[35m (0.4ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (0.3ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.5ms)[0m  [1m[34mSELECT pg_advisory_unlock(4628516070272267460)[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.7ms)[0m  [1m[34mSELECT "schema_migrations".* FROM "schema_migrations"[0m
