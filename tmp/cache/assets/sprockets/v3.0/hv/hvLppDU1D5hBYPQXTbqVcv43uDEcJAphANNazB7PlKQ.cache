@@ -1,0 +1,12 @@
+I"m(function() {
+  $(document).on('turbolinks:load', function() {
+    if ($('ul.channels li:first div a span').attr('id') !== void 0) {
+      window.open($('ul.channels li:first div a span').attr('id'), 'channels');
+    }
+    return $('body').on('click', 'a.open_channel', function(e) {
+      return window.open(e.target.id, 'channels');
+    });
+  });
+
+}).call(this);
+:ET

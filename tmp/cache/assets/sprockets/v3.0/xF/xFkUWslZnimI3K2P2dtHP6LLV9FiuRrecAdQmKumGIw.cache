@@ -1,0 +1,59 @@
+I"©(function() {
+  var add_message, clean_messages, set_chat;
+
+  set_chat = function(name) {
+    return $(".chat_name").html(name);
+  };
+
+  clean_messages = function() {
+    $(".messages").html("");
+    return $(".chat_name").html("");
+  };
+
+  add_message = function(message, message_date, name) {
+    return $(".messages").append('<div class="message col s12">' + '<div class="col m2 l1">' + '<i class="material-icons prefix right profile_icon">account_circle</i>' + '</div>' + '<div class="col m10 s9">' + '<div class="row">' + '<b>' + name + '</b> <span class="date">' + message_date + '</span>' + '</div>' + '<div class="row">' + message + '</div>' + '</div>' + '</div>');
+  };
+
+  window.open = function(id, type) {
+    clean_messages();
+    $.ajax("/" + type + "/" + id, {
+      type: 'GET',
+      contentType: 'application/json',
+      dataType: 'json',
+      data: {
+        team_id: $(".team_id").val()
+      },
+      success: function(data, text, jqXHR) {
+        var i, len, message, ref, results;
+        if (type === "talks") {
+          set_chat(data['user']['name']);
+        } else {
+          set_chat(data['slug']);
+        }
+        if (data['messages']) {
+          ref = data['messages'];
+          results = [];
+          for (i = 0, len = ref.length; i < len; i++) {
+            message = ref[i];
+            results.push((function() {
+              return add_message(message['body'], message['date'], message['user']['name']);
+            })());
+          }
+          return results;
+        }
+      },
+      error: function(jqXHR, textStatus, errorThrown) {
+        return Materialize.toast('Problem to get ' + type + ' informations &nbsp;<b>:(</b>', 4000, 'red');
+      }
+    });
+    return false;
+  };
+
+  window.add = function(slug, id, type) {
+    var additional;
+    additional = type === "channel" ? "#" : "";
+    return $('.' + type + 's').prepend('<li class="' + type + '_' + id + '">' + '  <div>' + '<a href="#" class="open_' + type + '">' + '<span id="' + id + '">' + additional + slug + '</span>' + '</a>' + '<a class="right remove_' + type + '" href="#" id="' + id + '">' + '<i class="material-icons" id="' + id + '">settings</i>' + '</a>' + '</div>' + '</li>');
+  };
+
+}).call(this);
+:ET

@@ -1,0 +1,29 @@
+I"û(function() {
+  $(document).on('turbolinks:load', function() {
+    $('body').on('click', 'a.remove_channel', function(e) {
+      $('#remove_channel_modal').modal('open');
+      $('.remove_channel_form').attr('action', 'channels/' + e.target.id);
+      $('#channel_remove_id').val(e.target.id);
+      return false;
+    });
+    return $('.remove_channel_form').on('submit', function(e) {
+      $.ajax(e.target.action, {
+        type: 'DELETE',
+        contentType: 'application/json',
+        dataType: 'json',
+        data: {},
+        success: function(data, text, jqXHR) {
+          $('.channel_' + $('#channel_remove_id').val()).remove();
+          return Materialize.toast('Success in delete Channel &nbsp;<b>:(</b>', 4000, 'green');
+        },
+        error: function(jqXHR, textStatus, errorThrown) {
+          return Materialize.toast('Problem to delete Channel &nbsp;<b>:(</b>', 4000, 'red');
+        }
+      });
+      $('#remove_channel_modal').modal('close');
+      return false;
+    });
+  });
+
+}).call(this);
+:ET

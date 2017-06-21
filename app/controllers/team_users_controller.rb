@@ -1,4 +1,3 @@
-
 class TeamUsersController < ApplicationController
   before_action :set_team_user, only: [:destroy]
 

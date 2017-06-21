@@ -1,0 +1,9 @@
+I"Ë(function() {
+  $(document).on('turbolinks:load', function() {
+    return $('body').on('click', 'a.open_user', function(e) {
+      return window.open(e.target.id, 'talks');
+    });
+  });
+
+}).call(this);
+:ET

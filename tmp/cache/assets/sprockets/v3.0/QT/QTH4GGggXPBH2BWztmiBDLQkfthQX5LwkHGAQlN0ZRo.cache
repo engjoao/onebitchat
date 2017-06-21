@@ -1,0 +1,29 @@
+I"t(function() {
+  $(document).on('turbolinks:load', function() {
+    $(".remove_team").on('click', (function(_this) {
+      return function(e) {
+        $('#remove_team_modal').modal('open');
+        $('.remove_team_form').attr('action', 'teams/' + e.target.id);
+        return false;
+      };
+    })(this));
+    return $('.remove_team_form').on('submit', function(e) {
+      $.ajax(e.target.action, {
+        type: 'DELETE',
+        contentType: 'application/json',
+        dataType: 'json',
+        data: {},
+        success: function(data, text, jqXHR) {
+          return $(location).attr('href', '/');
+        },
+        error: function(jqXHR, textStatus, errorThrown) {
+          $('#remove_team_modal').modal('close');
+          return Materialize.toast('Problem to delete Team &nbsp;<b>:(</b>', 4000, 'red');
+        }
+      });
+      return false;
+    });
+  });
+
+}).call(this);
+:ET

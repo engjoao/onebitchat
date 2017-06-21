@@ -1,0 +1,30 @@
+I"æ(function() {
+  $(document).on('turbolinks:load', function() {
+    $('body').on('click', 'a.remove_user', function(e) {
+      $('#remove_user_modal').modal('open');
+      $('.remove_user_form').attr('action', 'team_users/' + e.target.id);
+      $('#user_remove_id').val(e.target.id);
+      return false;
+    });
+    return $('.remove_user_form').on('submit', function(e) {
+      $.ajax(e.target.action, {
+        type: 'DELETE',
+        dataType: 'json',
+        data: {
+          team_id: $(".team_id").val()
+        },
+        success: function(data, text, jqXHR) {
+          $('.user_' + $('#user_remove_id').val()).remove();
+          return Materialize.toast('Success in remove User &nbsp;<b>:(</b>', 4000, 'green');
+        },
+        error: function(jqXHR, textStatus, errorThrown) {
+          return Materialize.toast('Problem to remove User &nbsp;<b>:(</b>', 4000, 'red');
+        }
+      });
+      $('#remove_user_modal').modal('close');
+      return false;
+    });
+  });
+
+}).call(this);
+:ET
